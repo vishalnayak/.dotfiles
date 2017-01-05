@@ -1,5 +1,3 @@
-" Borrowed from github.com/jefferai
-
 " vim-plug needs and plugins {{{
 call plug#begin('~/.vim/plugged')
 
@@ -90,6 +88,7 @@ call plug#end()
 
 " Misc global settings {{{
 syntax enable                       " enable syntax processing
+set tw=79                           " enable automatic text wrapping for 79 characters
 set modeline                        " turn on modeline processing
 set modelines=4                     " look at beginning or end of file
 set hidden                          " allow buffers to live in the background with changes
@@ -175,7 +174,9 @@ nnoremap k gk
 
 " move to beginning/end of line
 nnoremap B ^
+vnoremap B ^
 nnoremap E $
+vnoremap E $
 
 " highlight last inserted text
 nnoremap gV `[v`]
