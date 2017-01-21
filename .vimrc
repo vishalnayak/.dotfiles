@@ -222,7 +222,7 @@ nnoremap <silent> <leader>tt :TagbarToggle<CR>
 "}}}
 
 " NERDTree {{{
-nnoremap <leader>n :NERDTree<CR>
+nnoremap <leader>n :NERDTreeToggle<CR>
 " }}}
 
 
