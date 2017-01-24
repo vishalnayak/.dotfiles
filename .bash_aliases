@@ -1,9 +1,11 @@
-# Add the following three lines to ~/.bashrc if its not already present
+# Add the following three lines to ~/.bash_profile
+# Load all the common aliases
 #if [ -f ~/.bash_aliases ]; then
 #    . ~/.bash_aliases
 #fi
 
 # Those which does not take parameters
+alias ls="ls -a"
 alias gs="git status"
 alias gb="git branch -vv"
 alias gdh="git diff HEAD^"
