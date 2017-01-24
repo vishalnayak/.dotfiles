@@ -1,8 +1,14 @@
+# Add the following three lines to ~/.bashrc if its not already present
+#if [ -f ~/.bash_aliases ]; then
+#    . ~/.bash_aliases
+#fi
+
 # Those which does not take parameters
 alias gs="git status"
 alias gb="git branch -vv"
 alias gdh="git diff HEAD^"
 alias gl="git log"
+alias vishal="cd $GOPATH/src/github.com/vishalnayak/"
 alias vsh="cd $GOPATH/src/github.com/hashicorp/vault-ssh-helper"
 alias gov="cd $GOPATH/src/github.com/hashicorp/vault"
 alias gon="cd $GOPATH/src/github.com/hashicorp/nomad"
