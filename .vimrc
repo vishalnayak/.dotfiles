@@ -99,7 +99,7 @@ set noerrorbells                    " don't beep
 if !has('nvim')
     set viminfo='100,<100,%,n~/.viminfo " extend amount of saved info, only for regular vim
 endif
-set clipboard=unnamed
+set clipboard=unnamedplus,unnamed,autoselect
 " }}}
 
 
