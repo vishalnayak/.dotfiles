@@ -99,7 +99,12 @@ set noerrorbells                    " don't beep
 if !has('nvim')
     set viminfo='100,<100,%,n~/.viminfo " extend amount of saved info, only for regular vim
 endif
+
+" enable copy pasting across applications
 set clipboard=unnamedplus,unnamed,autoselect
+
+" fix the backspace problem
+set backspace=indent,eol,start
 " }}}
 
 
