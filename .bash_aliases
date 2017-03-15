@@ -7,6 +7,7 @@
 # Those which does not take parameters
 alias ls="ls -a"
 alias gs="git status"
+alias ga="git add -u ."
 alias gb="git branch -vv"
 alias gdh="git diff HEAD^"
 alias gl="git log"
@@ -17,6 +18,11 @@ alias gov="cd $GOPATH/src/github.com/hashicorp/vault"
 alias gon="cd $GOPATH/src/github.com/hashicorp/nomad"
 alias goc="cd $GOPATH/src/github.com/hashicorp/consul"
 alias ta="tmux attach"
+alias md="time make dev"
+alias mt="time make test > results.txt 2>&1"
+alias tailr="tail -f results.txt"
+alias vsf="rm -rf filedata/ && vault server -config vaultfilebackend.hcl"
+alias vinit="vault init -key-shares 1 -key-threshold 1"
 
 # Those which takes parameters
 
@@ -33,7 +39,7 @@ gdc () {
 }
 
 gc () {
-        git checkout $1
+        git commit -m $1
 }
 
 cl () {
