@@ -189,6 +189,9 @@ nnoremap gV `[v`]
 
 " Make 'jk' exit from insert mode
 inoremap jk <Esc>
+inoremap jK <Esc>
+inoremap Jk <Esc>
+inoremap JK <Esc>
 " }}}
 
 
