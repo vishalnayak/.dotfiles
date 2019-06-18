@@ -1,3 +1,10 @@
+" 1) Run the below command
+" curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+"
+" 2) Copy this file as ~/.vimrc
+"
+" 3) Open vim; do :PlugInstall
+
 " vim-plug needs and plugins {{{
 call plug#begin('~/.vim/plugged')
 
@@ -58,8 +65,8 @@ Plug 'Konfekt/FastFold'
 " Better view/session restoring/saving
 Plug 'kopischke/vim-stay'
 
-" Handle lines/columns in paths, e.g. from stacktraces
-Plug 'vim-fetch'
+" Use silver searcher for finding
+Plug 'rking/ag.vim'
 
 " Smart tabularizing; also needed for vim-markdown
 Plug 'godlygeek/tabular'
@@ -336,3 +343,6 @@ set writebackup
 
 
 " vim:foldmethod=marker:foldlevel=0
+
+set nowrapscan
+set number
