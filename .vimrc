@@ -1,9 +1,19 @@
-" 1) Run the below command
-" curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-"
-" 2) Copy this file as ~/.vimrc
-"
-" 3) Open vim; do :PlugInstall
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+" Install vim-plug if not found
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+endif
+
+" Run PlugInstall if there are missing plugins
+autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+  \| PlugInstall --sync | source $MYVIMRC
+\| endif
 
 " vim-plug needs and plugins {{{
 call plug#begin('~/.vim/plugged')
@@ -106,6 +116,8 @@ set noerrorbells                    " don't beep
 if !has('nvim')
     set viminfo='100,<100,%,n~/.viminfo " extend amount of saved info, only for regular vim
 endif
+set nowrapscan
+set number
 
 " enable copy pasting across applications
 set clipboard=unnamedplus,unnamed,autoselect
@@ -334,15 +346,15 @@ endif
 
 " Backups {{{
 " enable backups, but use tmp folders rather than using <file>~
-set backup
-set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
-set backupskip=/tmp/*,/private/tmp/*
-set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
-set writebackup
+"set backup
+"set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+"set backupskip=/tmp/*,/private/tmp/*
+"set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+"set writebackup
+"
+set nobackup
 " }}}
 
 
 " vim:foldmethod=marker:foldlevel=0
 
-set nowrapscan
-set number
