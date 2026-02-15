@@ -1,59 +1,62 @@
 #!/bin/bash
 
+# Exit on any error
 set -e
 
-echo "🚀 Starting fresh environment setup..."
+echo "🚀 Starting Nuclear Dotfiles Reset..."
 
-# Helper: Check if a command exists
-command_exists() {
-    command -v "$1" >/dev/null 2>&1
-}
+# 1. Define Paths
+DOTFILES_DIR=$(pwd)
+NVIM_CONFIG_DIR="$HOME/.config/nvim"
 
-# 1. Install High-Performance Toolchain
-TOOLS=(zsh neovim starship zoxide fzf ripgrep fd bat eza tmux go golangci-lint gh)
+# 2. Cleanup Phase: Wipe the 'Bad State'
+echo "🧹 Wiping cached Neovim state and broken links..."
+rm -rf ~/.local/share/nvim
+rm -rf ~/.local/state/nvim
+rm -rf ~/.cache/nvim
 
-for tool in "${TOOLS[@]}"; do
-    if ! command_exists "$tool"; then
-        echo "Installing $tool..."
-        brew install "$tool"
-    else
-        echo "✔ $tool is already installed."
-    fi
-done
+# Remove old files/links to ensure fresh symlinks
+rm -f ~/.vimrc
+rm -f "$NVIM_CONFIG_DIR/init.lua"
 
-# 2. Create Configuration Directories
-mkdir -p ~/.config/nvim
-mkdir -p ~/.config/starship
+# 3. Directory Preparation
+mkdir -p "$NVIM_CONFIG_DIR"
+mkdir -p ~/.vim/undo ~/.vim/backup ~/.vim/swap
 
-# 3. Aggressive Symbolic Link Logic
-DOTFILES_SRC=$(pwd)
+# 4. Symbolic Link Phase
+echo "🔗 Linking configuration files..."
 
-link_file() {
-    local src="$1"
-    local dest="$2"
-    
-    # If it's already a link to the right place, do nothing
-    if [ -L "$dest" ] && [ "$(readlink "$dest")" == "$src" ]; then
-        echo "✔ $dest is already correctly linked."
-        return
-    fi
-    
-    # If any file/link exists, back it up
-    if [ -e "$dest" ] || [ -L "$dest" ]; then
-        echo "Backing up existing $dest to ${dest}.bak"
-        mv "$dest" "${dest}.bak"
-    fi
-    
-    ln -s "$src" "$dest"
-    echo "✅ Linked $dest"
-}
+# Force link the vibrant .vimrc
+if [ -f "$DOTFILES_DIR/.vimrc" ]; then
+    ln -sf "$DOTFILES_DIR/.vimrc" "$HOME/.vimrc"
+    echo "✅ Linked .vimrc"
+else
+    echo "❌ Error: $DOTFILES_DIR/.vimrc not found!"
+    exit 1
+fi
 
-# Run linking
-link_file "$DOTFILES_SRC/.zshrc" "$HOME/.zshrc"
-link_file "$DOTFILES_SRC/.tmux.conf" "$HOME/.tmux.conf"
-link_file "$DOTFILES_SRC/starship.toml" "$HOME/.config/starship/starship.toml"
-link_file "$DOTFILES_SRC/init.lua" "$HOME/.config/nvim/init.lua"
-link_file "$DOTFILES_SRC/.vimrc" "$HOME/.vimrc"
+# Force link the modern init.lua
+if [ -f "$DOTFILES_DIR/init.lua" ]; then
+    ln -sf "$DOTFILES_DIR/init.lua" "$NVIM_CONFIG_DIR/init.lua"
+    echo "✅ Linked init.lua"
+else
+    echo "❌ Error: $DOTFILES_DIR/init.lua not found!"
+    exit 1
+fi
 
-# 4. Finalizing
-echo "✨ Setup Complete! Run 'source ~/.zshrc' to refresh your session."
+# 5. Toolchain Verification
+echo "🛠 Checking for core tools..."
+if ! command -v brew &> /dev/null; then
+    echo "Installing Homebrew..."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
+
+# Ensure Neovim 0.11+ and Go tools are present
+brew install neovim ripgrep fd gopls golangci-lint
+
+# 6. Plugin Sync
+echo "📦 Bootstrapping Neovim plugins..."
+# This runs Neovim in the background to install Lazy.nvim and all plugins
+nvim --headless "+Lazy! sync" +qa
+
+echo "✨ Reset Complete! Launch Neovim to see your vibrant Go environment."

@@ -29,6 +29,15 @@ alias gv='go verify'
 alias gbuild='go build -v'
 alias gtest='go test -v -race'
 
+# Directory Listings
+alias ls='eza -la --icons --git'
+
+# Git Shortcuts
+alias gs='git status'
+alias gd='git diff'
+
+
+
 # History configuration
 HISTSIZE=10000
 SAVEHIST=10000
