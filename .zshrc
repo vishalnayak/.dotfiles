@@ -36,6 +36,11 @@ alias ls='eza -la --icons --git'
 alias gs='git status'
 alias gd='git diff'
 
+# Open VS Code from terminal
+alias code='/usr/local/bin/code'
+# Principal PM shortcut: Open current project in VS Code
+alias vsc='code .'
+
 
 
 # History configuration
